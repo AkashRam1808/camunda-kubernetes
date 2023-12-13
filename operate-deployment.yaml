@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "camunda-chart.fullname" . }}-operate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: operate
+  template:
+    metadata:
+      labels:
+        app: operate
+    spec:
+      containers:
+        - name: operate
+          image: camunda/operate:latest
+          ports:
+            - containerPort: 8081
+          resources:
+            limits:
+              memory: "512Mi"  # Allocate 512Mi of memory
+            requests:
+              memory: "256Mi"  # Request 0.2 CPU units
+           

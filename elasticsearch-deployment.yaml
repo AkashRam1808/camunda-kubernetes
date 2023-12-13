@@ -1,0 +1,27 @@
+# templates/elasticsearch-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "camunda-chart.fullname" . }}-elasticsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+        - name: elasticsearch
+          image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+          ports:
+            - containerPort: 9200
+          resources:
+            limits:
+              memory: "512Mi"  # Allocate 512Mi of memory
+            requests:
+              memory: "256Mi"  # Request 0.2 CPU units
+          # Add other Elasticsearch configurations

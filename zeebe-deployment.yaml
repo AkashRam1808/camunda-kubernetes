@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "camunda-chart.fullname" . }}-zeebe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zeebe
+  template:
+    metadata:
+      labels:
+        app: zeebe
+    spec:
+      containers:
+        - name: zeebe
+          image: camunda/zeebe:latest
+          ports:
+            - containerPort: 26500
+          resources:
+            limits:
+              memory: "512Mi"  # Allocate 512Mi of memory
+            requests:
+              memory: "256Mi"  # Request 0.2 CPU units
+          # volumeMounts:
+          #   - name: zeebe-data
+          #     mountPath: /path/to/mount  # Specify the mount path inside the container
+      # volumes:
+      #   - name: zeebe-data
+      #     persistentVolumeClaim:
+      #       claimName: zeebe-data-pvc
